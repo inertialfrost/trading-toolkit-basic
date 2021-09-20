@@ -1,0 +1,34 @@
+Data available
+- Open
+- High
+- Low
+- Close
+- Volume
+
+OBJECTIVES
+Primary: Predict a significant fluctuation (rise) in price for the day
+Secondary: Predict a series of fluctuations (rise)  in price for a few days
+
+TRIALS
+1. Test correlation between volumes and returns.
+2. Is the pattern before the high volume learnable?
+
+GAP UP/DOWN ANALYSIS
+- Four types of gaps - common gap, breakaway gap, continuation gap, exhaustion gap
+- Full gap is when the next day's price is higher than the high of the prev day
+- Breakaway gaps occur at the end of a price pattern, and indicate a new trend or direction
+- Exhaustion gaps represents the final leg of a price pattern, and an indicator of a final attempt to reach the new
+  high/lows in the pricing. Indicates reversal of patterns
+- Common gap represents the area of price gap, and tells the square area within which strategies can be applied
+- Continuation gap which occurs in the middle of a pattern, indicates common belief on the direction of the stock
+- Difference between breakaway gap and exhaustion gap is volume (high vs. low)
+- * Once a stock starts to fill a gap, it will not stop *
+
+Strat 1 (Intraday)
+- If gap down occurs, and price hits opening price, buy for high chance of gap closure
+
+Strat 2
+- Find breakaway gaps to confirm trends
+
+Strat 3*
+- Try and predict gap ups

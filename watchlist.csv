@@ -1,0 +1,13 @@
+scrip,trigger,margin,lookout,comment
+VEDL.NS,285,0.02,bounce,"Bounce on ascending trend, no triangle"
+ICICIBANK.NS,699,0.02,bounce,"Bounce on ascending trend, no triangle"
+IGL.NS,530,0.02,bounce,Ascending triangle lower bound
+LT.NS,1680,0.02,bounce,Ascending channel lower bound
+M&M.NS,742,0.02,bounce,"Consolidation breakout, mostly bullish"
+MARICO.NS,536,0.02,bounce,Ascending channel lower bound
+ONGC.NS,116,0.02,bounce,Ascending channel lower bound
+SIEMENS.NS,2085,0.02,bounce,Ascending channel lower bound
+ULTRACEMCO.NS,7600,0.02,bounce,"Ascending wedge, but trade on channel"
+BAJAJ-AUTO.NS,3825,0.05,bouce,"Ascending wedge, with beginning of third wave"
+VEDL.NS,296,0.02,breakout,"Breakout from current support, opportunity for small profit"
+APLAPOLLO.NS,840,0.05,bounce,"Continuation of bounce, can buy on bounceback"
