@@ -22,7 +22,8 @@ def period_max(period: int, ref_loc: int, data: pandas.DataFrame) -> (float, int
     # print('Test (period_max)---------', period, ref_loc)
     max_value = data.iloc[ref_loc - period + 1: ref_loc].max()
     max_value_loc = data.index.get_loc(data.iloc[ref_loc - (period - 1): ref_loc].idxmax(axis=0))
-    return max_value, max_value_loc
+    max_value_idx = data.iloc[ref_loc - (period - 1): ref_loc].idxmax(axis=0)
+    return max_value, max_value_loc, max_value_idx
 
 
 def period_min(period: int, ref_loc: int, data: pandas.DataFrame) -> (float, int):
@@ -36,7 +37,8 @@ def period_min(period: int, ref_loc: int, data: pandas.DataFrame) -> (float, int
     # print('Test (period_max)---------', period, ref_loc)
     min_value = data.iloc[ref_loc - (period - 1): ref_loc].min()
     min_value_loc = data.index.get_loc(data.iloc[ref_loc - (period - 1): ref_loc].idxmin(axis=0))
-    return min_value, min_value_loc
+    min_value_idx = data.iloc[ref_loc - (period - 1): ref_loc].idxmin(axis=0)
+    return min_value, min_value_loc, min_value_idx
 
 
 def period_max_date(period: int, ref_date: dt.datetime, arr: pandas.DataFrame) -> (float, int):
@@ -146,14 +148,17 @@ def pattern_asc_triag(data: pandas.DataFrame, period: int, start_loc: int) -> li
     result = []
 
     for scrip in scrip_list:
-        min1, loc_min1 = period_min(int(period/4), n, data['Low'][scrip])
-        max1, loc_max1 = period_max(int(period/2), loc_min1, data['High'][scrip])
-        min2, loc_min2 = period_min(int(period/2), loc_max1, data['Low'][scrip])
-        max2, loc_max2 = period_max(int(period/2), loc_min2, data['High'][scrip])
+        min1, loc_min1, idx_min1 = period_min(int(period/4), n, data['Low'][scrip])
+        max1, loc_max1, idx_max1 = period_max(int(period/3), loc_min1, data['High'][scrip])
+        min2, loc_min2, idx_min2 = period_min(int(period/3), loc_max1, data['Low'][scrip])
+        max2, loc_max2, idx_max2 = period_max(int(period/3), loc_min2, data['High'][scrip])
 
         if 0.995 <= max1/max2 <= 1.005 and min1 > min2:
-            result.append(scrip)
-
+            result.append([scrip, min1, idx_min1.strftime('%Y-%m-%d'), max1, idx_max1.strftime('%Y-%m-%d'),
+                           min2, idx_min2.strftime('%Y-%m-%d'), max2, idx_max2.strftime('%Y-%m-%d')])
+    print('\n', 'Ascending Triangle Scan', '\n')
+    print(tabulate(result, headers=['Scrip', 'Min1', 'Idx_Min1', 'Max1', 'Idx_Max1', 'Min2', 'Idx_Min2', 'Max2',
+                                    'Idx_Max2']))
     return result
 
 
@@ -202,17 +207,6 @@ def pattern_asc_triangle_date(data: pd.DataFrame, scrip_list: list, cur_date: dt
                        close_l1_l > close_l2_l > close_l3_l
 
         if asc_triangle:
-            # scan_results.append(cur_date.date())
-            # print(scrip)
-            # print('t_minus_1:', rel_date(cur_date, t_0).date().strftime('%d-%m-%Y'))
-            # print('close_1_l: ', close_l1_l, ', loc_l1_l: ', loc_l1_l)
-            # print('close_1_h: ', close_l1_h, ', loc_l1_h: ', loc_l1_h)
-            # print('t_minus_11:', rel_date(cur_date, t_1).date().strftime('%d-%m-%Y'))
-            # print('close_11_l: ', close_l2_l, ', loc_l2_l: ', loc_l2_l)
-            # print('close_11_h: ', close_l2_h, ', loc_l2_h: ', loc_l2_h)
-            # print('t_minus_21:', rel_date(cur_date, t_2).date().strftime('%d-%m-%Y'))
-            # print('close_21_l: ', close_l3_l, ', loc_l3_l: ', loc_l3_l)
-            # print('close_21_h: ', close_l3_h, ', loc_l3_h: ', loc_l3_h)
             final_result.append(scrip)
 
     print('\n', 'Pattern Matching Asc Triangle', '\n', '------------------------------------')
@@ -417,8 +411,23 @@ def gather_data(scrip_list: list, num_days: int) -> pd.DataFrame:
 def main():
     arguments = sys.argv
     # scrip_list = ['TCS.NS', 'INFY.NS']
-    scrip_list = nifty100
+    scrip_list = nifty200
     data_downloaded = False
+    verbose = False
+
+    if 'verbose' in sys.argv:
+        verbose = True
+
+    if 'help' in sys.argv:
+        help_string = [
+            ['scan_watchlist', 'Scans watchlist from watchlist.csv in local folder'],
+            ['scan_bull_hammer', 'Scans for bullish hammers'],
+            ['scan_inv_bull_hammer', 'Scans for inverted bullish hammers'],
+            ['two_white_soldiers', 'Scans for two white soldiers'],
+            ['pattern_asc_tri', 'Scans for ascending triangles'],
+        ]
+        for item in help_string:
+            print(item)
 
     if 'scan_watchlist' in sys.argv:
         trig_hits = scan_watchlist()
@@ -437,17 +446,17 @@ def main():
             data_downloaded = True
         inverted_bullish_hammers = candlestick_inv_hammer_b(data, scrip_list, 0.4, 0.1)
 
-    if 'two_white_soldiers' in sys.argv:
+    if 'scan_two_white_soldiers' in sys.argv:
         if not data_downloaded:
             data = gather_data(scrip_list, 100)
             data_downloaded = True
         two_white_soldiers = candlestick_two_white_soldiers(data, scrip_list)
 
-    if 'asc_triag' in sys.argv:
+    if 'pattern_asc_tri' in sys.argv:
         if not data_downloaded:
             data = gather_data(scrip_list, 100)
             data_downloaded = True
-        asc_triag = pattern_asc_triag(data, 36, data.shape[0] - 1)
+        asc_triag = pattern_asc_triag(data, 50, data.shape[0] - 1)
 
 
 main()
