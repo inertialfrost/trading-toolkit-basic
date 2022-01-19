@@ -1,13 +1,10 @@
-scrip,trigger,margin,lookout,comment
-VEDL.NS,285,0.02,bounce,"Bounce on ascending trend, no triangle"
-ICICIBANK.NS,699,0.02,bounce,"Bounce on ascending trend, no triangle"
-IGL.NS,530,0.02,bounce,Ascending triangle lower bound
-LT.NS,1680,0.02,bounce,Ascending channel lower bound
-M&M.NS,742,0.02,bounce,"Consolidation breakout, mostly bullish"
-MARICO.NS,536,0.02,bounce,Ascending channel lower bound
-ONGC.NS,116,0.02,bounce,Ascending channel lower bound
-SIEMENS.NS,2085,0.02,bounce,Ascending channel lower bound
-ULTRACEMCO.NS,7600,0.02,bounce,"Ascending wedge, but trade on channel"
-BAJAJ-AUTO.NS,3825,0.05,bouce,"Ascending wedge, with beginning of third wave"
-VEDL.NS,296,0.02,breakout,"Breakout from current support, opportunity for small profit"
-APLAPOLLO.NS,840,0.05,bounce,"Continuation of bounce, can buy on bounceback"
+﻿scrip,trigger,margin,lookout,comment
+PRESTIGE.NS,507,0.02,asc_triag,Pattern breakout
+GLENMARK.NS,540,0.01,sideways_channel,
+LAURUSLABS.NS,507,0.01,asc_triag,
+IGL.NS,465,0.02,bull_flag,Potential Bullish Flag
+ITC.NS,230,0.01,bull_flag,Potential Bullish Flag
+IRCTC.NS,882,0.02,asc_triag,Looking for retest of support
+VEDL.NS,351,0.01,undecided_flag,"Clear constricting pattern, there has been a major sell, also near channel top of ATH"
+BALKRISIND.NS,2496,0.01,upwards_channel,"Very narrow band, but has some scalping potential"
+BRITANNIA.NS,3493,0.02,sideways_channel,Good chance of bouncing back from LT support
